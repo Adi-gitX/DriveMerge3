@@ -18,7 +18,7 @@ A modern web client for DriveMerge — a multi-drive file transfer and merge UI.
 
 - Client: Vite + React + TypeScript
 - Styling: Tailwind CSS + shadcn-style components
-- Auth & Storage: optional Supabase integration (configure via env vars)
+- Auth & Storage: optional external integration (configure via env vars)
 
 ## Getting started (local development)
 
@@ -40,11 +40,7 @@ npm install
 Create a `.env.local` file (this file is ignored) and set any required variables. Example variables the client may read:
 
 ```env
-# Example (if you use Supabase)
-VITE_SUPABASE_URL=https://your-supabase-url
-VITE_SUPABASE_ANON_KEY=your-anon-key
-
-# Optional: API base URL if using an external server
+# Optional: API base URL for your backend
 VITE_API_BASE_URL=https://your-backend.example.com
 ```
 
@@ -70,7 +66,7 @@ npm run build
 
 - `src/` — React app source
 - `public/` — static assets
-- `supabase/` — optional Supabase migrations and config (kept for convenience)
+- `supabase/` — optional Supabase migrations and config (can be removed if not used)
 
 ## Contribution & style
 

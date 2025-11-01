@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const Register = () => {
@@ -13,17 +12,16 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    setLoading(false);
-    if (error) {
-      toast({ title: "Sign up failed", description: error.message });
-      return;
-    }
-    toast({
-      title: "Account created",
-      description: "Check your email to confirm (if required)",
-    });
-    navigate("/login");
+    // Supabase-based signup removed. Replace this with a call to your backend.
+    setTimeout(() => {
+      setLoading(false);
+      toast({
+        title: "Registration disabled",
+        description:
+          "Creating accounts via Supabase is disabled in this client. Use server-side registration.",
+      });
+      navigate("/login");
+    }, 500);
   };
 
   return (

@@ -1,11 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 
-// Temporary implementation using localStorage to avoid requiring DB migrations / server updates.
-// This provides a working Connected Accounts UX for development. Later this should be backed by
-// Supabase table queries (server-side) or using proper typed supabase.from(...) calls.
+// Supabase was removed from the client. For local/dev usage we keep connected accounts
+// stored in localStorage keyed by a simple local user id. If you have an external auth
+// provider, replace `getCurrentUserId` to return the authenticated user's id.
 
 const STORAGE_KEY_PREFIX = "cf_connected_accounts_";
+
+async function getCurrentUserId(): Promise<string | null> {
+  // Developers can set a persistent id for local testing, e.g.:
+  // localStorage.setItem('dm_user_id', 'my-local-user')
+  return localStorage.getItem("dm_user_id") ?? "local-dev-user";
+}
 
 export function useConnectedAccounts() {
   return useQuery<
@@ -20,10 +25,9 @@ export function useConnectedAccounts() {
   >({
     queryKey: ["connected_accounts"],
     queryFn: async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      const user = userData.user as { id: string } | null;
-      if (!user) return [];
-      const raw = localStorage.getItem(STORAGE_KEY_PREFIX + user.id);
+      const userId = await getCurrentUserId();
+      if (!userId) return [];
+      const raw = localStorage.getItem(STORAGE_KEY_PREFIX + userId);
       if (!raw) return [];
       try {
         const parsed = JSON.parse(raw);
@@ -43,11 +47,10 @@ export function useAddConnectedAccount() {
       total_space?: number;
       provider?: string;
     }) => {
-      const { data: userData } = await supabase.auth.getUser();
-      const user = userData.user as { id: string } | null;
-      if (!user) throw new Error("Not authenticated");
+      const userId = await getCurrentUserId();
+      if (!userId) throw new Error("Not authenticated");
 
-      const key = STORAGE_KEY_PREFIX + user.id;
+      const key = STORAGE_KEY_PREFIX + userId;
       const raw = localStorage.getItem(key);
       const existing = raw ? (JSON.parse(raw) as unknown[]) : [];
       const newEntry = {

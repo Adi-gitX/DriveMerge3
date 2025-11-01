@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
@@ -13,20 +12,17 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setLoading(false);
-    if (error) {
-      toast({ title: "Sign in failed", description: error.message });
-      return;
-    }
-    toast({
-      title: "Signed in",
-      description: `Welcome back ${data.user?.email ?? ""}`,
-    });
-    navigate("/");
+    // Supabase integration has been removed from the client.
+    // Replace this with a call to your backend auth API or other auth provider.
+    setTimeout(() => {
+      setLoading(false);
+      toast({
+        title: "Authentication disabled",
+        description:
+          "Sign in with Supabase was removed. Please use the server auth or configure an external provider.",
+      });
+      navigate("/");
+    }, 500);
   };
 
   return (
