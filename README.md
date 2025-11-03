@@ -4,6 +4,16 @@ DriveMerge is a cloud storage management platform that enables users to connect 
 
 ---
 
+## Hosted URLs
+
+**Frontend:**
+[https://drive-merge.vercel.app/](https://drive-merge.vercel.app/)
+
+**Backend:**
+[https://drive-merge-server.vercel.app/](https://drive-merge-server.vercel.app/)
+
+---
+
 ## Overview
 
 The main goal of **DriveMerge** is to overcome Google Drive’s individual storage limitations by allowing users to merge storage space across multiple Google accounts. Users can log in with multiple accounts, upload files, and seamlessly manage their data through a single unified interface.
@@ -64,6 +74,58 @@ The main goal of **DriveMerge** is to overcome Google Drive’s individual stora
 
 ---
 
+## Setup Instructions (For Developers)
+
+### **1. Clone the Repository**
+
+```bash
+git clone https://github.com/nandu-99/DriveMerge
+cd DriveMerge
+```
+
+---
+
+### **2. Setup Backend**
+
+```bash
+cd server
+npm install
+cp .env.example .env
+```
+
+* Add your environment variables
+* Run Prisma migrations:
+
+```bash
+npx prisma migrate dev
+```
+
+* Start the backend server:
+
+```bash
+node index.js
+```
+
+---
+
+### **3. Setup Frontend**
+
+```bash
+cd ..
+cd client
+npm install
+cp .env.example .env
+```
+
+* Add the required environment variables
+* Run the development server:
+
+```bash
+npm run dev
+```
+
+---
+
 ## Current Limitations
 
 * The application is currently in **Google Cloud test mode**, so only developer-approved users can log in with Google Drive.
@@ -87,4 +149,3 @@ The main goal of **DriveMerge** is to overcome Google Drive’s individual stora
 * **Aditya Kammati – 230145**
 
 ---
-
